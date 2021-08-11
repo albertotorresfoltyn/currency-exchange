@@ -1,0 +1,55 @@
+version: "3"
+services:
+  api-node-server:
+    build: ./server/.
+    ports:
+      - "8080:8080"
+    networks:
+      - anyfin-challenge-network
+    command: sh -c 'npm run migrations && npm run start-dev'
+    depends_on:
+      - mysql
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=8080
+      - DB_CLIENT_DEV=mysql2
+      - DB_HOST_DEV=mysql
+      - DB_NAME_DEV=country_info
+      - DB_USER_DEV=anyfin
+      - DB_PASSWORD_DEV=secret
+    volumes:
+      - /usr/src/app/node_modules
+      - "./server:/usr/src/app"
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=country_info
+      - MYSQL_USER=anyfin
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=secret
+    expose:
+      - "3306"
+    networks:
+      - anyfin-challenge-network
+    volumes:
+      - ./server/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+  react-app:
+    build: ./web/.
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    networks:
+      - anyfin-challenge-network
+    environment:
+      - REACT_APP_API_URL_DEV=http://0.0.0.0:8080
+      - REACT_APP_API_URL_PROD=http://0.0.0.0:8080
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - api-node-server
+    volumes:
+      - /usr/src/app/node_modules
+      - "./web:/usr/src/app"
+networks:
+  anyfin-challenge-network:
+    driver: bridge

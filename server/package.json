@@ -1,0 +1,38 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "knex": "knex",
+    "nodemon": "nodemon",
+    "start": "node src/index.js",
+    "start-dev": "npm run nodemon src/index.js",
+    "migrations": "knex migrate:latest",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.1"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.25.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
+    "got": "^11.8.2",
+    "graphql": "^15.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.6",
+    "mysql2": "^2.2.5"
+  }
+}
